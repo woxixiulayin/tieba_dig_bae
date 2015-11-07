@@ -14,7 +14,7 @@ def search():
     if request.method == 'POST':
         print request.form.to_dict()
 
-	return Response(json.dumps(comments), mimetype='application/json', headers={'Cache-Control': 'no-cache'})
+	#return Response(json.dumps(comments), mimetype='application/json', headers={'Cache-Control': 'no-cache'})
 
 if __name__ == "__main__":
 	app.run(host='0.0.0.0', port=8888)
