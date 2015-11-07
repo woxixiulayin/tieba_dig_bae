@@ -17,10 +17,6 @@ var posts = [
 	}
 ]
 
-var socket = io.connect('http://' + document.domain + ':' + location.port);
-var send_para = function(para) {
-	socket.emit('tieba_dig', para);
-};
 
 var status = {
 	init: 0,
@@ -54,14 +50,14 @@ var Postrow = React.createClass({
 var Poststable = React.createClass({
 	render: function() {
 			if(this.props.status === status.init){
-				return (<h2 className="text-center">please input your seraching condition</h2>);
+				return (<h2 className="text-center">请输入搜索条件</h2>);
 				}
 			else if(this.props.status === status.finding){
-				return (<h2 className='text-center'>server is searching posts under your condition, please wait...</h2>);
+				return (<h2 className='text-center'>服务器正在搜索，请耐心等待</h2>);
 				}
 			else{
 				if(this.props.posts.length === 0)
-					return (<h2 className='text-center'> there is no post found,please input the correct condition</h2>);
+					return (<h2 className='text-center'>没有发现符合条件的帖子，请重新输入</h2>);
 				else {
 					var posts_list = this.props.posts.map(function(post) {
 						return (<Postrow post={post} />);
@@ -98,16 +94,16 @@ var Searchbar = React.createClass({
             <div className="navbar-collapse collapse text-center">
                     <form className="navbar-form" role="form" onSubmit={this.handleSubmit}>
                         <div className='form-group'>
-                            <input ref='tieba_name' type="text" placeholder='tieba name' className='form-control' />
+                            <input ref='tieba_name' type="text" placeholder='贴吧名' className='form-control' />
                         </div>
                         <div className='form-group'>
-                            <input ref='deepth' type="text" placeholder='deepth' className='form-control' />
+                            <input ref='deepth' type="text" placeholder='搜索页数' className='form-control' />
                         </div>
                         <div className='form-group'>
-                            <input ref='rep_num' type="text" placeholder='least reply' className='form-control' />
+                            <input ref='rep_num' type="text" placeholder='最少回复量' className='form-control' />
                         </div>
                         <div className='form-group'>
-                            <input ref='author' type="text" placeholder='author' className='form-control' />
+                            <input ref='author' type="text" placeholder='作者(可省略)' className='form-control' />
                         </div>
                         <input type="submit" className='btn btn-success' value='GO'/>
                     </form>
@@ -120,13 +116,20 @@ var Searchbar = React.createClass({
 
 var Filtertable = React.createClass({
 	handleParaSubmit: function(para) {
-		send_para(para);
+		$.ajax({
+			url: this.props.url,
+			dataType: 'json',
+			type: 'POST',
+			data: para,
+			success: function(posts) {
+				console.log(posts);
+				this.setState({posts: posts, status: status.finish});
+			}.bind(this),
+			error: function(xhr, status, err) {
+        	console.error(this.props.url, status, err.toString());
+      		}.bind(this)
+		});
 		this.setState({status: status.finding});
-	},
-	componentDidMount: function() {
-		socket.on('tieba_dig', function(posts){
-			this.setState({posts: posts,status: status.finish});
-		}.bind(this));
 	},
 	getInitialState: function() {
 		return {posts: [], status: status.init};
@@ -142,6 +145,6 @@ var Filtertable = React.createClass({
 });
 
 React.render(
-	<Filtertable posts={posts} / >,
+	<Filtertable posts={posts} url='/search' / >,
 	document.getElementById('content')
 	);

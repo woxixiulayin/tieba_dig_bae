@@ -1,35 +1,36 @@
 #!/usr/bin/env python
-#!conding:utf-8
-from flask import Flask, render_template
-from flask.ext.socketio import SocketIO, send, emit
+#-*- coding:utf-8 -*-
+
+from flask import Flask, render_template, Response, request
 from rat import Query
-# import json
+import json
 
 app = Flask(__name__)
-socketio = SocketIO(app)
-
-event_name = 'tieba_dig'
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+	return render_template("index.html")
 
-
-@socketio.on(event_name)
-def handle_search_para(para):
-    print para
-    print type(para['rep_num'])
-    posts = []
+@app.route('/search', methods=['GET', 'POST'])
+def search():
+    if request.method == 'POST':
+    	para =  request.form.to_dict()
+    	para['deepth'] = int(para['deepth'])
+    	para['rep_num'] = int(para['rep_num'])
+        posts = []
     try:
         query = Query(para)
         print 'done'
         posts = query.find()
+        return Response(json.dumps(posts), mimetype='application/json', headers={'Cache-Control': 'no-cache'})
     except StandardError, e:
         print e
-    emit(event_name, posts)
+        import traceback
+        traceback.print_exc()
+		# return Response(json.dumps(posts), mimetype='application/json', headers={'Cache-Control': 'no-cache'})
 
-if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0', port=8888)
+if __name__ == "__main__":
+	app.run(host='0.0.0.0', port=8888)
 else:
-    from bae.core.wsgi import WSGIApplication
-    application = WSGIApplication(socketio)
+	from bae.core.wsgi import WSGIApplication
+	application = WSGIApplication(app)

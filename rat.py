@@ -6,7 +6,7 @@ import json
 from lxml import etree
 import socket
 import chardet
-from multiprocessing import Process, Queue, Pool, Manager
+# from multiprocessing import Process, Queue, Pool, Manager
 import logging
 logging.basicConfig(level=logging.INFO)
 import sys  
@@ -130,7 +130,6 @@ def find_worker(url, author, rep_num, q, lock):
         q.put(posts_1_page)
         lock.release()
 
-
 class Query(dict):
 
     def __init__(self, para):
@@ -145,16 +144,20 @@ class Query(dict):
 
     def find(self):
         posts_all_pages = []
-        m = Manager()
-        q = m.Queue()
-        lock = m.Lock()
-        p = Pool()
+        # m = Manager()
+        # q = m.Queue()
+        # lock = m.Lock()
+        # p = Pool()
+        # for n in range(self.deepth):
+        #     p.apply_async(find_worker, args=("http://tieba.baidu.com/f?kw=" + self.tieba_name + '&pn=' + str(
+        #         n * 50), self.author, self.rep_num, q, lock,))
+        # p.close()
+        # p.join()
+        # while not q.empty():
+        #     posts_all_pages.extend(q.get(True))
         for n in range(self.deepth):
-            p.apply_async(find_worker, args=("http://tieba.baidu.com/f?kw=" + self.tieba_name + '&pn=' + str(
-                n * 50), self.author, self.rep_num, q, lock,))
-        p.close()
-        p.join()
-        while not q.empty():
-            posts_all_pages.extend(q.get(True))
+            posts_all_pages.extend(Tieba_url("http://tieba.baidu.com/f?kw=" + self.tieba_name + '&pn=' + str(
+                 n * 50)).get_posts_need(self.author, self.rep_num))
+
         logging.info('get all needed post')
         return posts_all_pages
