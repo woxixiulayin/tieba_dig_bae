@@ -27,7 +27,7 @@ def search():
         print e
         import traceback
         traceback.print_exc()
-		# return Response(json.dumps(posts), mimetype='application/json', headers={'Cache-Control': 'no-cache'})
+		return Response(json.dumps(posts), mimetype='application/json', headers={'Cache-Control': 'no-cache'})
 
 if __name__ == "__main__":
 	app.run(host='0.0.0.0', port=8888)
