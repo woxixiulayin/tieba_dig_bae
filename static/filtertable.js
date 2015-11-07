@@ -122,15 +122,14 @@ var Filtertable = React.createClass({
 			type: 'POST',
 			data: para,
 			success: function(posts) {
-				this.setState({posts: posts})}.bind(this),
+				console.log(posts);
+				this.setState({posts: posts, status: status.finish});
+			}.bind(this),
 			error: function(xhr, status, err) {
         	console.error(this.props.url, status, err.toString());
       		}.bind(this)
 		});
 		this.setState({status: status.finding});
-	},
-	componentDidMount: function() {
-		this.setState({posts: posts, status: status.finish});
 	},
 	getInitialState: function() {
 		return {posts: [], status: status.init};
