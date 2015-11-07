@@ -158,5 +158,6 @@ class Query(dict):
         for n in range(self.deepth):
             posts_all_pages.extend(Tieba_url("http://tieba.baidu.com/f?kw=" + self.tieba_name + '&pn=' + str(
                  n * 50)).get_posts_need(self.author, self.rep_num))
+
         logging.info('get all needed post')
         return posts_all_pages
