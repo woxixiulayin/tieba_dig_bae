@@ -146,11 +146,6 @@ class Query(dict):
                         author is %s''' % (self.tieba_name, self.deepth, self.rep_num, self.author ))
 
     def find(self):
-        # for n in range(self.deepth):
-        #     self.posts_all_pages.extend(Tieba_url("http://tieba.baidu.com/f?kw=" + self.tieba_name + '&pn=' + str(
-        #         n * 50)).get_posts_need(self.author, self.rep_num))
-
-        # logging.info('get all needed post')
         return self.get_posts_single_theard()
 
     def get_posts_single_theard(self):

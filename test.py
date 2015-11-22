@@ -25,15 +25,5 @@ class Testcase(unittest.TestCase):
         # logging.info('get_posts_mutil_theard find number is: %d' % len(Query(condition).get_posts_mutil_theard()))
         # self.assertTrue(len(Query(**condition).find())>0, True)
 
-    # def test_query_condition(self):
-    #     condition = {
-    #         'tieba_name': "美剧",
-    #         'deepth': '1',
-    #         'rep_num': '1000',
-    #         'author': ''
-    #     }
-    #     self.assertEquals(type(Query(**condition).find()), list)
-    #     self.assertTrue(len(Query(**condition).find())>0, True)
-
 if __name__ == '__main__':
     unittest.main()
