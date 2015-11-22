@@ -119,7 +119,7 @@ class Tieba_url(My_url):
                 continue
             if post.rep_num < least_reply:
                 continue
-            logging.info('[' + post.author + '***' + str(post.rep_num) + ']')
+            logging.debug('[' + post.author + '***' + str(post.rep_num) + ']')
             self.posts.append(post2dict(post))
         return self.posts
 
@@ -165,9 +165,11 @@ class Query(dict):
         from gevent import monkey
         monkey.patch_all()
         import gevent
+        works = []
         for n in range(self.deepth):
-            work = gevent.spawn(self.gevent_task, n)
-            work.join()
+            works.append(gevent.spawn(self.gevent_task, n))
+        for w in works:
+            w.join()
         return self.posts_all_pages
 
     def get_posts_mutil_theard(self):
