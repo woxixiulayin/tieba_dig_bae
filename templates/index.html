@@ -2,15 +2,35 @@
 <html>
   <head>
     <title>Tieba_dig</title>
-    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <!-- <link rel="stylesheet" href="static/build/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="static/build/mine.css">
     <script src='static/build/jQuery.js'></script>
-    <script src="static/build/react.js"></script>
-    <script src="static/build/browser.min.js"></script>
-
+    <script src="static/build/post.js"></script>
   </head>
   <body>
-    <nav class="container" id='content'></nav>
-    <script type="text/babel" src='static/filtertable.js'></script>
+    <div class="container">
+      <div class="header">
+        <h1 class="title">TieBa Dig</h1>
+        <p class="instrac">a smple website for filtering tieba posts</p>
+        <div class="form">
+          <input ref='tieba_name' type="text" placeholder='贴吧名' class='form-control' />
+          <input ref='deepth' type="text" placeholder='搜索页数' class='form-control' />
+          <input ref='rep_num' type="text" placeholder='最少回复量' class='form-control' />
+          <input ref='author' type="text" placeholder='作者(可省略)' class='form-control' />
+          <input type="submit" class='btn btn-success' value='GO'/>
+        </div>
+      </div>
+      <div id="posts" class="posts">
+        <div class="post">
+          <a class="post-title" href=''>远方的田野</a>
+          <p class="post-body">生活不止眼前的苟且，还有诗和远方...</p>
+          <div class="post-label">
+          <span class="post-rep-num">4433</span>
+          <span class="post-author">矮大紧</span>
+          <span class="post-last-time">10.11</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
