@@ -1,9 +1,6 @@
 var main = function(){
-    $(".post").css("left", "800px")
-    .animate({
-        left: '0'
-        }, 1200);
-
+    $(".post").css({"left":"800px","opacity":"0"})
+    .animate({left: "0", opacity: "1"}, 1200);
 
 };
 
