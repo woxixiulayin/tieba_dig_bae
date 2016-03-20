@@ -32,7 +32,13 @@ def search():
         return Response(json.dumps(posts), mimetype='application/json', headers={'Cache-Control': 'no-cache'})
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8888)
+    #run in develop environment
+    from livereload import Server
+    #anychange will trigger browser refresh
+    server = Server(app.wsgi_app)
+    server.serve(port=8080, host='localhost')
+
 else:
+    #run in bae
     from bae.core.wsgi import WSGIApplication
     application = WSGIApplication(app)
