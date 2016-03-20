@@ -48,6 +48,10 @@ input {
     border-radius: 5px;
     border-color: blue;
 }
+
+.posts {
+    overflow: hidden;
+}
 .post {
     height: 130px;
     background: #cecece;
