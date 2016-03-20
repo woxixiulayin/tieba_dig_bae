@@ -4,6 +4,12 @@ body {
     background: #eeeeee;
 }
 
+input {
+    margin: 1px 2px;
+    width: 100px;
+}
+
+
 .header {
     font-size:30px;
     color: #cccccc;
@@ -16,11 +22,32 @@ body {
     margin: 0 auto;
     text-align: center;
 }
+
+
 .instrac {
     color: #ffffff;
     text-align: center;
 }
 
+.form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-control {
+    height: 2em;
+    margin: 0.5em 0;
+    border: 1px solid;
+    border-color: green;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.btn-go {
+    background-color: green;
+    border-radius: 5px;
+    border-color: blue;
+}
 .post {
     height: 130px;
     background: #cecece;
