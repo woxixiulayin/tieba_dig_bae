@@ -19,6 +19,12 @@ var jPostExample =  {
         "body":"this is a short corse for teaching"
     }
 
+var jSerachExample = {
+            'tieba_name': "游戏",
+            'deepth': 1,
+            'rep_num': 100,
+        }
+
 function postIn(post, animation){
     appendPost(post);
     post.css(animation.before)
@@ -35,9 +41,18 @@ function appendPost(post) {
     post.appendTo('.posts')
 }
 
+function getData() {
+    console.log(1);
+    $.post('/search', jSerachExample, function(data, status){
+        for(var i in data) {
+            postIn(createPost(data[i]), jPostAnimation);
+        }
+    })
+}
+
 var main = function(){
-    postIn(createPost(jPostExample), jPostAnimation);
-    //postIn($(createPost(jPostExample)), jPostAnimation);
+    //postIn(createPost(jPostExample), jPostAnimation);
+    getData();
 };
 
 $(document).ready(main);
