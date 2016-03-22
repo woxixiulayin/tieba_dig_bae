@@ -16,7 +16,9 @@ input {
     background: #222222;
     padding: 10px auto;
     margin: 5px 0;
+    border-radius: 10px;
 }
+
 .title {
     padding: 5px auto;
     margin: 0 auto;
