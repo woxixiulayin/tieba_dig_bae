@@ -10,14 +10,14 @@ var jPostAnimation = {
     delay: 1200
 }
 
-var jPostExample =  {
-        "title":"HTML教程",
-        "author":"yuanmin",
-        "rep_num":200,
-        "url_link": "www.baidu.com",
-        "last_time":"17:34",
-        "body":"this is a short corse for teaching"
-    }
+// var jPostExample =  {
+//         "title":"HTML教程",
+//         "author":"yuanmin",
+//         "rep_num":200,
+//         "url_link": "www.baidu.com",
+//         "last_time":"17:34",
+//         "body":"this is a short corse for teaching"
+//     }
 
 var jSerachExample = {
             'tieba_name': "游戏",
@@ -41,9 +41,19 @@ function appendPost(post) {
     post.appendTo('.posts')
 }
 
+function getSearchInfo(){
+    var serchInfo = {};
+    serchInfo["tieba_name"] = $("input[name='tieba_name']").val();
+    serchInfo["deepth"] = $("input[name='deepth']").val();
+    serchInfo["rep_num"] = $("input[name='rep_num']").val();
+    serchInfo["author"] = $("input[name='author']").val();
+    console.log(serchInfo);
+    return serchInfo;
+}
+
 function getData() {
-    console.log(1);
-    $.post('/search', jSerachExample, function(data, status){
+    console.log("getData");
+    $.post('/search', getSearchInfo(), function(data, status){
         for(var i in data) {
             postIn(createPost(data[i]), jPostAnimation);
         }
@@ -51,11 +61,14 @@ function getData() {
 }
 
 function initPost() {
-  
+  $(".btn-go").click(getData);
 }
+
+
 var main = function(){
     //postIn(createPost(jPostExample), jPostAnimation);
-    getData();
+    // getData();
+    initPost();
 };
 
 main();
