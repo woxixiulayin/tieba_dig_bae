@@ -50,9 +50,12 @@ function getData() {
     })
 }
 
+function initPost() {
+  
+}
 var main = function(){
     //postIn(createPost(jPostExample), jPostAnimation);
     getData();
 };
 
-$(document).ready(main);
+main();

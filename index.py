@@ -36,7 +36,7 @@ if __name__ == "__main__":
     from livereload import Server
     #anychange will trigger browser refresh
     server = Server(app.wsgi_app)
-    server.serve(port=8080, host='localhost')
+    server.serve(port=8080, host='0.0.0.0')
 
 else:
     #run in bae
