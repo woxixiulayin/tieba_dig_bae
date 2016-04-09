@@ -37,8 +37,8 @@ input {
 }
 
 .form-control {
-    height: 2em;
-    margin: 0.5em 0;
+    height: 16px;
+    margin: 2px 0;
     border: 1px solid;
     border-color: green;
     text-align: center;
@@ -81,9 +81,16 @@ input {
 
 }
 .hint {
+    height: 40px;
+    width: 150px;
     margin: 20px auto;
     text-align: center;
     font-size: 18px;
+    line-height: 40px;
     font-family: Times;
     font-weight: bold;
+}
+.hint img {
+    float: left;
+    padding: 4px;
 }

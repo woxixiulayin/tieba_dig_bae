@@ -55,6 +55,7 @@ function getSearchInfo(){
 function getData() {
     console.log("getData");
     hint.text("正在搜索...");
+    hint.prepend($("<img src='static/img/loading.gif'>"));
     $.post('/search', getSearchInfo(),
         function(data, status){
         hint.hide();
