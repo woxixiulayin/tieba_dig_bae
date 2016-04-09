@@ -10,22 +10,27 @@ var jPostAnimation = {
     delay: 1200
 }
 
-// var jPostExample =  {
-//         "title":"HTML教程",
-//         "author":"yuanmin",
-//         "rep_num":200,
-//         "url_link": "www.baidu.com",
-//         "last_time":"17:34",
-//         "body":"this is a short corse for teaching"
-//     }
-
 var jSerachExample = {
             'tieba_name': "游戏",
             'deepth': 1,
             'rep_num': 100,
         }
 
-var hint = $(".hint");
+var hint = (function(){
+    return {
+        __proto__: $(".hint"),
+        showHint: function () {
+            dom_posts.html("");
+            console.log(this);
+            this.text("正在搜索...");
+            this.show();
+            this.prepend($("<img src='static/img/loading.gif'>"));
+        }
+    }
+}());
+
+var dom_posts = $(".posts");
+
 function postIn(post, animation){
     appendPost(post);
     post.css(animation.before)
@@ -54,8 +59,7 @@ function getSearchInfo(){
 
 function getData() {
     console.log("getData");
-    hint.text("正在搜索...");
-    hint.prepend($("<img src='static/img/loading.gif'>"));
+    hint.showHint();
     $.post('/search', getSearchInfo(),
         function(data, status){
         hint.hide();
