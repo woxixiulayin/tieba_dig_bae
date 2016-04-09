@@ -25,6 +25,7 @@ var jSerachExample = {
             'rep_num': 100,
         }
 
+var hint = $(".hint");
 function postIn(post, animation){
     appendPost(post);
     post.css(animation.before)
@@ -53,11 +54,15 @@ function getSearchInfo(){
 
 function getData() {
     console.log("getData");
-    $.post('/search', getSearchInfo(), function(data, status){
+    hint.text("正在搜索...");
+    $.post('/search', getSearchInfo(),
+        function(data, status){
+        hint.hide();
         for(var i in data) {
             postIn(createPost(data[i]), jPostAnimation);
         }
-    })
+    }
+    ) 
 }
 
 function initPost() {
