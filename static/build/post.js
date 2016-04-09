@@ -56,11 +56,26 @@ function getSearchInfo(){
     console.log(serchInfo);
     return serchInfo;
 }
+function checkInfo(info) {
+    if(!info["tieba_name"] || !info["deepth"] ||!info["rep_num"]) {
+        return false;
+    }
+    else {
+        return true;
+    }
+}
 
 function getData() {
     console.log("getData");
+    var info = getSearchInfo();
+
+    if(!checkInfo(info)){
+        alert("请输入正确的搜索信息");
+        return;
+    }
+    
     hint.showHint();
-    $.post('/search', getSearchInfo(),
+    $.post('/search', info,
         function(data, status){
         hint.hide();
         for(var i in data) {
