@@ -128,7 +128,7 @@ var Filtertable = React.createClass({
 			}.bind(this),
 			error: function(xhr, status) {
         	console.error(this.props.url, status);
-      		}.bind(this)
+        }
 		});
 		this.setState({status: status.finding});
 	},
