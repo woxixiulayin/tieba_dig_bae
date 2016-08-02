@@ -15,7 +15,6 @@ def index():
 def search():
     if request.method == 'POST':
     	para =  request.form.to_dict()
-        print para
     	para['deepth'] = int(para['deepth'])
     	para['rep_num'] = int(para['rep_num'])
         posts = []

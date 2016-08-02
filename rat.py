@@ -76,9 +76,8 @@ class My_url():
         try:
             self.content = urllib2.urlopen(url, timeout=5).read()
             chartype = chardet.detect(self.content)
-            logging.info('html type is %s' % chartype['encoding'])
+            # logging.info('html type is %s' % chartype['encoding'])
             self.content = self.content.decode('utf8')
-            logging.info(self.content)
         except urllib2.URLError:
             logging.info("Bad URL or timeout")
         except socket.timeout:
