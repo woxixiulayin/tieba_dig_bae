@@ -76,8 +76,8 @@ var Searchbar = React.createClass({
 	handleSubmit: function(e){
 		e.preventDefault();
 		var tieba_name = this.refs.tieba_name.getDOMNode().value.trim();
-		var deepth = parseInt(this.refs.deepth.getDOMNode().value.trim());
-		var rep_num = parseInt(this.refs.rep_num.getDOMNode().value.trim());
+		var deepth = this.refs.deepth.getDOMNode().value.trim();
+		var rep_num = this.refs.rep_num.getDOMNode().value.trim();
 		var author = this.refs.author.getDOMNode().value.trim();
 		this.props.onParaSubmit({tieba_name: tieba_name, author: author, rep_num: rep_num, deepth: deepth});
 	},	
@@ -88,6 +88,7 @@ var Searchbar = React.createClass({
                 <div className='col-md-12'>
                     <h1 className="logotxt text-center text-primary">Tieba Dig</h1>
                     <h2 className="site-name text-primary text-center">a simple website for filtering tieba posts</h2>
+                    <h5 className="text-primary text-center"><a href="https://github.com/woxixiulayin/tieba_dig_bae" target="_blank">Github地址:https://github.com/woxixiulayin/tieba_dig_bae</a></h5>
                 </div>
             </div>
             <div className="row">
@@ -125,8 +126,8 @@ var Filtertable = React.createClass({
 				console.log(posts);
 				this.setState({posts: posts, status: status.finish});
 			}.bind(this),
-			error: function(xhr, status, err) {
-        	console.error(this.props.url, status, err.toString());
+			error: function(xhr, status) {
+        	console.error(this.props.url, status);
       		}.bind(this)
 		});
 		this.setState({status: status.finding});

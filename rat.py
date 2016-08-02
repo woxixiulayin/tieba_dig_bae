@@ -77,7 +77,8 @@ class My_url():
             self.content = urllib2.urlopen(url, timeout=5).read()
             chartype = chardet.detect(self.content)
             logging.info('html type is %s' % chartype['encoding'])
-            self.content = self.content.decode(chartype['encoding'])
+            self.content = self.content.decode('utf8')
+            logging.info(self.content)
         except urllib2.URLError:
             logging.info("Bad URL or timeout")
         except socket.timeout:
@@ -135,7 +136,7 @@ class Query(dict):
     def __init__(self, para):
         self.tieba_name = para.get('tieba_name')
         self.deepth = para.get('deepth', 1)
-        self.rep_num = para.get('rep_num', 100)
+        self.rep_num = para.get('rep_num', 10)
         self.author = para.get('author', None)
         logging.info('''tieba_name is %s,
                         deepth is %s,
