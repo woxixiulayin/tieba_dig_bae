@@ -9,8 +9,8 @@ import chardet
 # from multiprocessing import Process, Queue, Pool, Manager
 import logging
 logging.basicConfig(level=logging.INFO)
-import sys  
-reload(sys)  
+import sys
+reload(sys)
 sys.setdefaultencoding('utf8')
 
 tieba_preurl = "http://tieba.baidu.com/"
@@ -53,6 +53,7 @@ def li2post(li):
         './/div[1]/div[2]/div[2]/div[1]/div[1]')[0].text
     post.tags = 'tieba'
     return post
+
 
 def post2dict(post):
     p_dict = {}
@@ -118,7 +119,7 @@ class Tieba_url(My_url):
                 continue
             if post.rep_num < least_reply:
                 continue
-            logging.info('['+post.author+'***'+str(post.rep_num)+']')
+            logging.debug('[' + post.author + '***' + str(post.rep_num) + ']')
             self.posts.append(post2dict(post))
         return self.posts
 
@@ -130,9 +131,11 @@ def find_worker(url, author, rep_num, q, lock):
         q.put(posts_1_page)
         lock.release()
 
+
 class Query(dict):
 
     def __init__(self, para):
+        self.posts_all_pages = []
         self.tieba_name = para.get('tieba_name')
         self.deepth = para.get('deepth', 1)
         self.rep_num = para.get('rep_num', 10)
@@ -143,21 +146,43 @@ class Query(dict):
                         author is %s''' % (self.tieba_name, self.deepth, self.rep_num, self.author ))
 
     def find(self):
-        posts_all_pages = []
-        # m = Manager()
-        # q = m.Queue()
-        # lock = m.Lock()
-        # p = Pool()
-        # for n in range(self.deepth):
-        #     p.apply_async(find_worker, args=("http://tieba.baidu.com/f?kw=" + self.tieba_name + '&pn=' + str(
-        #         n * 50), self.author, self.rep_num, q, lock,))
-        # p.close()
-        # p.join()
-        # while not q.empty():
-        #     posts_all_pages.extend(q.get(True))
-        for n in range(self.deepth):
-            posts_all_pages.extend(Tieba_url("http://tieba.baidu.com/f?kw=" + self.tieba_name + '&pn=' + str(
-                 n * 50)).get_posts_need(self.author, self.rep_num))
+        return self.get_posts_single_theard()
 
-        logging.info('get all needed post')
-        return posts_all_pages
+    def get_posts_single_theard(self):
+
+        for n in range(self.deepth):
+            self.posts_all_pages.extend(Tieba_url("http://tieba.baidu.com/f?kw=" + self.tieba_name + '&pn=' + str(
+                n * 50)).get_posts_need(self.author, self.rep_num))
+        return self.posts_all_pages
+
+    def get_posts_gevent(self):
+
+        from gevent import monkey
+        monkey.patch_all()
+        import gevent
+        works = []
+        for n in range(self.deepth):
+            works.append(gevent.spawn(self.gevent_task, n))
+        for w in works:
+            w.join()
+        return self.posts_all_pages
+
+    def get_posts_mutil_theard(self):
+
+        from multiprocessing import Process, Queue, Pool, Manager
+        m = Manager()
+        q = m.Queue()
+        lock = m.Lock()
+        p = Pool()
+        for n in range(self.deepth):
+            p.apply_async(find_worker, args=("http://tieba.baidu.com/f?kw=" + self.tieba_name + '&pn=' + str(
+                n * 50), self.author, self.rep_num, q, lock,))
+        p.close()
+        p.join()
+        while not q.empty():
+            self.posts_all_pages.extend(q.get(True))
+        return self.posts_all_pages    
+
+    def gevent_task(self, n):
+        self.posts_all_pages.extend(Tieba_url("http://tieba.baidu.com/f?kw=" + self.tieba_name + '&pn=' + str(
+            n * 50)).get_posts_need(self.author, self.rep_num))

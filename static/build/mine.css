@@ -1,0 +1,96 @@
+body {
+    max-width: 800px;
+    margin: auto;
+    background: #eeeeee;
+}
+
+input {
+    margin: 1px 2px;
+    width: 100px;
+}
+
+
+.header {
+    font-size:30px;
+    color: #cccccc;
+    background: #222222;
+    padding: 10px auto;
+    margin: 5px 0;
+    border-radius: 10px;
+}
+
+.title {
+    padding: 5px auto;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+.instrac {
+    color: #ffffff;
+    text-align: center;
+}
+
+.form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-control {
+    height: 25px;
+    margin: 2px 0;
+    border: 1px solid;
+    border-color: green;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.btn-go {
+    background-color: green;
+    border-radius: 5px;
+    border-color: blue;
+}
+
+.posts {
+    overflow: hidden;
+}
+.post {
+    height: 130px;
+    background: #aaaaaa;
+    border-radius: 10px;
+    border: 2px solid;
+    border-color: red;
+    padding: 3px;
+    position: relative;
+}
+.post-title {
+    display: block;
+    font-size: 18px;
+    color: blue;
+}
+.post-body {
+    font-size: 14px;
+    color: #303030;
+    padding: 5px;
+}
+.post-label {
+    font-size: 13px;
+    color: #AA0000;
+    position: absolute;
+    bottom: 2px;
+
+}
+.hint {
+    height: 40px;
+    width: 150px;
+    margin: 20px auto;
+    text-align: center;
+    font-size: 18px;
+    line-height: 40px;
+    font-family: Times;
+    font-weight: bold;
+}
+.hint img {
+    float: left;
+    padding: 4px;
+}

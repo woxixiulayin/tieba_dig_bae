@@ -7,16 +7,18 @@ import json
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def index():
-	return render_template("index.html")
+    return render_template("index.html")
+
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     if request.method == 'POST':
-    	para =  request.form.to_dict()
-    	para['deepth'] = int(para['deepth'])
-    	para['rep_num'] = int(para['rep_num'])
+        para = request.form.to_dict()
+        para['deepth'] = int(para['deepth'])
+        para['rep_num'] = int(para['rep_num'])
         posts = []
     try:
         query = Query(para)
@@ -30,7 +32,13 @@ def search():
         return Response(json.dumps(posts), mimetype='application/json', headers={'Cache-Control': 'no-cache'})
 
 if __name__ == "__main__":
-	app.run(host='0.0.0.0', port=8888)
+    #run in develop environment
+    from livereload import Server
+    #anychange will trigger browser refresh
+    server = Server(app.wsgi_app)
+    server.serve(port=8080, host='0.0.0.0')
+
 else:
-	from bae.core.wsgi import WSGIApplication
-	application = WSGIApplication(app)
+    #run in bae
+    from bae.core.wsgi import WSGIApplication
+    application = WSGIApplication(app)
